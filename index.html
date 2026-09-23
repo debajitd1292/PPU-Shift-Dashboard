@@ -16,13 +16,32 @@ body { font-family: Arial; margin:0; background:#eef1f5; }
     color:white;
     text-align:center;
     padding:15px 10px;
+
+    position: sticky;
+    top: 0;
+    z-index: 1000;        /* keeps it above everything */
 }
 
 .holiday-text {
     font-size: 13px;   /* change as needed */
 }
 
-.logo { width:50px; border-radius:12px; }
+.logo {
+    width:50px;
+    height:50px;
+    border-radius:50%;              /* perfect circle */
+    object-fit:cover;
+
+    border:2px solid white;
+    box-shadow:0 2px 8px rgba(0,0,0,0.3);
+
+    background:white;               /* avoids flicker edge */
+    padding:2px;
+
+    opacity:0;                      /* hidden initially */
+    transform:scale(0.8);           /* small at start */
+    transition:all 0.4s ease;       /* smooth animation */
+}
 
 .badge {
     display:inline-block;
@@ -39,6 +58,8 @@ body { font-family: Arial; margin:0; background:#eef1f5; }
     margin:10px;
     padding:12px;
     border-radius:12px;
+
+    margin-top:15px;   /* ensures spacing from sticky header */
 }
 
 input, select {
@@ -105,7 +126,9 @@ select:focus, input:focus {
 <body>
 
 <div class="header">
-    <img src="https://raw.githubusercontent.com/debajitd1292/PPU-Shift-Dashboard/main/logo.png" class="logo">
+    <img src="https://raw.githubusercontent.com/debajitd1292/PPU-Shift-Dashboard/main/logo.png"
+     class="logo"
+     onload="this.style.opacity=1; this.style.transform='scale(1)'">
     <h3>PPU Shift Schedule</h3>
     <div id="todayDate"></div>
 
