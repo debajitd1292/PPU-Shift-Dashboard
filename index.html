@@ -26,22 +26,7 @@ body { font-family: Arial; margin:0; background:#eef1f5; }
     font-size: 13px;   /* change as needed */
 }
 
-.logo {
-    width:50px;
-    height:50px;
-    border-radius:50%;              /* perfect circle */
-    object-fit:cover;
-
-    border:2px solid white;
-    box-shadow:0 2px 8px rgba(0,0,0,0.3);
-
-    background:white;               /* avoids flicker edge */
-    padding:2px;
-
-    opacity:0;                      /* hidden initially */
-    transform:scale(0.8);           /* small at start */
-    transition:all 0.4s ease;       /* smooth animation */
-}
+.logo { width:50px; border-radius:50%; }
 
 .badge {
     display:inline-block;
@@ -126,9 +111,7 @@ select:focus, input:focus {
 <body>
 
 <div class="header">
-    <img src="https://raw.githubusercontent.com/debajitd1292/PPU-Shift-Dashboard/main/logo.png"
-     class="logo"
-     onload="this.style.opacity=1; this.style.transform='scale(1)'">
+    <img src="https://raw.githubusercontent.com/debajitd1292/PPU-Shift-Dashboard/main/logo.png" class="logo">
     <h3>PPU Shift Schedule</h3>
     <div id="todayDate"></div>
 
@@ -276,7 +259,7 @@ if(todaysNotes.length === 0) return "";
 
 return todaysNotes.map(n => {
 if(n.type === "BIRTHDAY"){
-    return `🎂 Happy Birthday ${n.name}`;
+    return `Happy Birthday ${n.name} 🎂`;
 } else {
     return n.message;
 }
@@ -288,7 +271,7 @@ function init(){
 let dateElem = document.getElementById("todayDate");
 dateElem.innerText = new Date().toDateString();
 
-/* ✅ YELLOW COLOR */
+/* ✅ APPLY GREEN COLOR */
 if(isSpecialDay()){
     dateElem.style.color = "#ffd600";
     dateElem.style.fontWeight = "bold";
@@ -467,6 +450,7 @@ renderSelected();
 function calcHoliday(){
 
     let today = new Date();
+    today.setHours(0,0,0,0);  // normalize
 
     let nextGH = null;
     let nextRH = null;
@@ -475,7 +459,8 @@ function calcHoliday(){
         if(!h.date) return;
 
         let [d,m,y] = h.date.split("-");
-        let hd = new Date(`${y}-${m}-${d}`);
+
+        let hd = new Date(parseInt(y), parseInt(m)-1, parseInt(d));
 
         if(hd <= today) return;
 
